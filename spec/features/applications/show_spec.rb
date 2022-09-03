@@ -16,9 +16,7 @@ RSpec.describe 'application show page' do
         visit "/applications/#{@john_doe_app.id}"
         expect(page).to have_content(@john_doe_app.name)
         expect(page).to have_content(@john_doe_app.street_address)
-        expect(page).to have_content(@john_doe_app.description)
         expect(page).to have_content(@scooby.name)
-        # save_and_open_page
 
         click_link("#{@scooby.name}")
         expect(current_path).to eq("/pets/#{@scooby.id}")
