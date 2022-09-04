@@ -29,8 +29,8 @@ class ApplicationsController < ApplicationController
       new_app.update(status: "In Progress")
       redirect_to "/applications/#{new_app.id}"
     else
-      flash[:notice] = "Application not Submitted. Please fill out all fields."
       redirect_to("/applications/new")
+      flash[:notice] = "Error: #{error_message(new_app.errors)}"
     end 
   end
 
