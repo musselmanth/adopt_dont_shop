@@ -8,7 +8,11 @@
   <div id="<%= app_pet.name.downcase %>"><span><%= app_pet.name %>:</span>
     <span>
       <% if !app_pet.status %>
-        <%= button_to "Approve", "/admin/applications/#{@application.id}", method: :patch, params: {status: 'approved', ap_id: app_pet.id} %>
+        <% if app_pet.pet.any_approved_applications? %>
+          <br>This pet has been approved for adoption on another application.
+        <% else %>
+          <%= button_to "Approve", "/admin/applications/#{@application.id}", method: :patch, params: {status: 'approved', ap_id: app_pet.id} %>
+        <% end %>
         <%= button_to "Reject", "/admin/applications/#{@application.id}", method: :patch, params: {status: 'rejected', ap_id: app_pet.id} %>
       <% end %>
       <% if app_pet.status %>
