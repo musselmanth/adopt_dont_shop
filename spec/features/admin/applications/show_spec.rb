@@ -17,8 +17,20 @@ RSpec.describe 'Admin Applications Show Page', type: :feature do
       status: 'Pending'
     )
 
+    @roberta_benson_app = Application.create!(
+      name: 'Roberta Benson', 
+      street_address: '700 W 18th Ave Apt 101', 
+      city: 'Bend', 
+      state: 'OR', 
+      zip_code: 84585, 
+      description: 'I am very responsible and need animal friends because I have no human friends.', 
+      status: 'Pending'
+    )
+
     @john_doe_app.pets << @cookie
     @john_doe_app.pets << @spot
+
+    @roberta_benson_app.pets << @cookie
   end
 
   it 'has a button to approve each pet on the application' do
@@ -90,5 +102,35 @@ RSpec.describe 'Admin Applications Show Page', type: :feature do
 
     expect(page).to_not have_button("Approve")
   end
+
+  describe 'only approve one app for a pet' do
+    it 'doesnt allow a pet to be approved if it has been approved on another application' do
+      visit("/admin/applications/#{@john_doe_app.id}")
+      within("div#cookie") do
+        click_button("Approve")
+      end
+  
+      visit("/admin/applications/#{@roberta_benson_app.id}")
+      within("div#cookie") do
+        expect(page).to_not have_button("Approve")
+        expect(page).to have_content("This pet has been approved for adoption on another application.")
+      end
+    end
+  
+    it 'works in multiple cases' do
+      visit("/admin/applications/#{@roberta_benson_app.id}")
+      within("div#cookie") do
+        click_button("Approve")
+      end
+  
+      visit("/admin/applications/#{@john_doe_app.id}")
+      within("div#cookie") do
+        expect(page).to_not have_button("Approve")
+        expect(page).to have_content("This pet has been approved for adoption on another application.")
+      end
+    end
+      
+  end
+
 
 end
