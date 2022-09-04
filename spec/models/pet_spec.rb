@@ -22,7 +22,8 @@ RSpec.describe Pet, type: :model do
     @jane_johnson_app = Application.create!(name: 'Jane Johnson', street_address: '2548 Bungalow Ave', city: 'Spokane', state: 'WA', zip_code: 27338, description: 'I like cats. Give me some.', status: 'Pending')
 
     @john_doe_app.pets << @pet_1
-    @jane_johnson_app.pets << [@pet_2, @pet_1]
+    @jane_johnson_app.pets << @pet_2
+    @jane_johnson_app.pets << @pet_1
   end
 
   describe 'class methods' do
@@ -51,6 +52,14 @@ RSpec.describe Pet, type: :model do
         expect(@pet_1.pending_apps).to eq([@john_doe_app, @jane_johnson_app])
         expect(@pet_2.pending_apps).to eq([@jane_johnson_app])
         expect(@pet_3.pending_apps).to eq([])
+      end
+    end
+
+    describe '.any_approved_applications?' do
+      it 'can tell whether any applications have been approved on a particular pet' do
+        @jane_johnson_app.app_pets_and_pets.first.update(status: "approved")
+        expect(@pet_1.any_approved_applications?).to be false
+        expect(@pet_2.any_approved_applications?).to be true
       end
     end
   end
