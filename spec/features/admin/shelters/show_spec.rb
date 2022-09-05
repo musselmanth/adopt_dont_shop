@@ -40,12 +40,18 @@ RSpec.describe 'Show Shelter Admin Page' do
 
   it 'works for a different shelter' do
     visit("/admin/shelters/#{@shelter2.id}")
-
     expect(page).to have_content("Action Required")
     expect(page).to have_content(@watson.name)
     expect(page).to_not have_content(@taos.name)
     expect(page).to_not have_content(@cookie.name)
     expect(page).to_not have_content(@dash.name)
     expect(page).to_not have_content(@spot.name)
+  end
+
+  it 'shows shelter name and address via raw SQL' do
+    visit("/admin/shelters/#{@shelter1.id}")
+    expect(page).to have_content("Action Required")
+    expect(page).to have_content(@shelter1.name)
+    expect(page).to have_content(@shelter1.city)
   end
 end

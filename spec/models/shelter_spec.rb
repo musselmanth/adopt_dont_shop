@@ -53,6 +53,12 @@ RSpec.describe Shelter, type: :model do
         expect(Shelter.order_by_reverse_alphabetical).to eq([@shelter_2, @shelter_3, @shelter_1])
       end
     end
+
+    describe '#city(id)' do
+      it 'returns city of given record' do
+        expect(Shelter.city(@shelter_1.id)).to eq('Aurora, CO')
+      end
+    end
   end
 
   describe 'instance methods' do
