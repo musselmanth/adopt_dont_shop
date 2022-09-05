@@ -31,6 +31,27 @@ RSpec.describe Application, type: :model do
                     expect(@john_doe_app.app_pets_and_pets[1]).to respond_to(:status)
                 end
             end
+            describe '.update status' do
+                it 'will not update the status if only one of the pets is approved' do
+                    @john_doe_app.application_pets.first.update(status: 'approved')
+                    @john_doe_app.update_status
+                    expect(@john_doe_app.status).to eq('Pending')
+                end
+                it 'will update the status to approved if all the pets are approved' do
+                    @john_doe_app.application_pets.each do |app_pet|
+                        app_pet.update(status: 'approved')
+                    end
+                    @john_doe_app.update_status
+
+                    expect(@john_doe_app.status).to eq('Approved')
+                end
+                it 'will update the status to rejected if any of the pets are rejected' do
+                    @john_doe_app.application_pets.first.update(status: 'rejected')
+                    @john_doe_app.update_status
+
+                    expect(@john_doe_app.status).to eq('Rejected')
+                end
+            end
         end
     end
 end
