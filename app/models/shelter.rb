@@ -20,6 +20,10 @@ class Shelter < ApplicationRecord
     find_by_sql("SELECT * FROM shelters ORDER BY name DESC")
   end
 
+  def self.city(id)
+    find_by_sql("SELECT city from shelters where id = #{id}").first.city
+  end
+
   def pet_count
     pets.count
   end
