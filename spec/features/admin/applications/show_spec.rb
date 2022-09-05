@@ -129,7 +129,30 @@ RSpec.describe 'Admin Applications Show Page', type: :feature do
         expect(page).to have_content("This pet has been approved for adoption on another application.")
       end
     end
-      
+
+    it 'updates the status of the application when the status of a pet is changed' do
+      visit("/admin/applications/#{@john_doe_app.id}")
+      within("div#cookie") do
+        click_button("Approve")
+      end
+
+      expect(page).to have_content("Application Status: Pending")
+
+      within("div#spot") do
+        click_button("Approve")
+      end
+
+      expect(page).to have_content("Application Status: Approved")
+    end
+
+    it 'update the status to rejected if any of the pets are rejected' do
+      visit("/admin/applications/#{@john_doe_app.id}")
+      within("div#cookie") do
+        click_button("Reject")
+      end
+
+      expect(page).to have_content("Application Status: Rejected")
+    end
   end
 
 

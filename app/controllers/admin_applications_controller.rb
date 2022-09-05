@@ -7,6 +7,7 @@ class AdminApplicationsController < ApplicationController
   def update
     @application_pet = ApplicationPet.find(params[:ap_id])
     @application_pet.update(status: params[:status])
+    Application.find(params[:id]).update_status
     redirect_to("/admin/applications/#{params[:id]}")
   end
 
