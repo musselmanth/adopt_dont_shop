@@ -44,7 +44,7 @@ RSpec.describe 'create a new application', type: :feature do
 
     expect(Application.last).to be nil
     expect(current_path).to eq("/applications/new")
-    expect(page).to have_content("Application not Submitted. Please fill out all fields.")
+    expect(page).to have_content("Error: Zip code can't be blank\nPets\nShelters\nVeterinarians\nVeterinary Offices\nNew Application\nName Street Address City State Zip Code")
   end
 
 end

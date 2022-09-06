@@ -14,10 +14,12 @@ class Application < ApplicationRecord
     end
 
     def update_status
-      if application_pets.any?{ |app_pet| app_pet.status == 'rejected' }
-        update(status: "Rejected")
-      elsif application_pets.all?{ |app_pet| app_pet.status == 'approved'}
-        update(status: "Approved")
+      if application_pets.all?(&:status)
+        if application_pets.any?{ |app_pet| app_pet.status == 'rejected' }
+          update(status: 'Rejected')
+        else
+          update(status: 'Approved')
+        end
       end
     end
 

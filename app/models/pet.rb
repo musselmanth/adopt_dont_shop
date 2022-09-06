@@ -18,7 +18,12 @@ class Pet < ApplicationRecord
   end
 
   def any_approved_applications?
-    application_pets.any?{ |app_pet| app_pet.status == "approved" }
+    # application_pets.any?{ |app_pet| app_pet.status == "approved" }
+    app_pet_and_app_status.any?{ |app_pet| app_pet.status = "approved" && app_pet.app_status == "Approved"}
+  end
+
+  def app_pet_and_app_status
+    application_pets.select('application_pets.*, applications.status AS app_status').joins(:application)
   end
   
 end
