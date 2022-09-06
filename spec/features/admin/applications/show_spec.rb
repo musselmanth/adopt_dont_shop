@@ -109,6 +109,9 @@ RSpec.describe 'Admin Applications Show Page', type: :feature do
       within("div#cookie") do
         click_button("Approve")
       end
+      within("div#spot") do
+        click_button("Approve")
+      end
   
       visit("/admin/applications/#{@roberta_benson_app.id}")
       within("div#cookie") do
@@ -148,6 +151,24 @@ RSpec.describe 'Admin Applications Show Page', type: :feature do
     it 'update the status to rejected if any of the pets are rejected' do
       visit("/admin/applications/#{@john_doe_app.id}")
       within("div#cookie") do
+        click_button("Reject")
+      end
+
+      expect(page).to have_content("Application Status: Pending")
+
+      within("div#spot") do
+        click_button("Approve")
+      end
+
+      expect(page).to have_content("Application Status: Rejected")
+    end
+
+    it 'update the status to rejected if all pets are rejected' do
+      visit("/admin/applications/#{@john_doe_app.id}")
+      within("div#cookie") do
+        click_button("Reject")
+      end
+      within("div#spot") do
         click_button("Reject")
       end
 

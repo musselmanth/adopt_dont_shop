@@ -45,8 +45,17 @@ RSpec.describe Application, type: :model do
 
                     expect(@john_doe_app.status).to eq('Approved')
                 end
-                it 'will update the status to rejected if any of the pets are rejected' do
+                it 'will update the status to rejected if any of the pets are rejected and all pets have either been rejected or approved' do
                     @john_doe_app.application_pets.first.update(status: 'rejected')
+                    @john_doe_app.update_status
+                    
+                    expect(@john_doe_app.status).to eq('Pending')
+
+                    @john_doe_app.application_pets.each do |pet|
+                        if !pet.status
+                            pet.update(status: 'approved')
+                        end
+                    end
                     @john_doe_app.update_status
 
                     expect(@john_doe_app.status).to eq('Rejected')
