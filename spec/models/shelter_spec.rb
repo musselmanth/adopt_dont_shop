@@ -13,9 +13,9 @@ RSpec.describe Shelter, type: :model do
   end
 
   before(:each) do
-    @shelter_1 = Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
-    @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
-    @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
+    @shelter_1 = Shelter.create!(name: 'Aurora shelter', city: 'Aurora', foster_program: false, state: "CO", street_address: "1234 Street Ave", zip_code: 32145, rank: 9)
+    @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen', foster_program: false, state: "TX", street_address: "1234 Street Blvd", zip_code: 32145, rank: 5)
+    @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver', foster_program: true, state: "CO", street_address: "1234 Street Alley", zip_code: 32145, rank: 10)
 
     @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
     @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
@@ -56,7 +56,7 @@ RSpec.describe Shelter, type: :model do
 
     describe '#city(id)' do
       it 'returns city of given record' do
-        expect(@shelter_1.find_city).to eq('Aurora, CO')
+        expect(@shelter_1.find_address).to eq("1234 Street Ave, Aurora CO, 32145")
       end
     end
 

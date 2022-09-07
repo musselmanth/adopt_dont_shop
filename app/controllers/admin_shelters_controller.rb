@@ -3,7 +3,7 @@ class AdminSheltersController < ApplicationController
   def show
     @shelter = Shelter.find(params[:id])
     @action_needed_pets = @shelter.action_needed_pets
-    @city = @shelter.find_city
+    @address = @shelter.find_address
   end
 
   def index
