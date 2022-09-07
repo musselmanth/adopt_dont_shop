@@ -1,6 +1,11 @@
 <h1><%= @shelter.name %> Admin Page</h1>
-<p><%= @city %></p>
 <h2>Action Required</h2>
 <% @action_needed_pets.each do |pet| %>
-  <p><%= pet.name %></p>
+  <p id="pet-<%= pet.id %>">
+  <strong><%= link_to pet.name, "/pets/#{pet.id}" %></strong><br>
+  Pending Applications:
+  <% pet.applications.each do |app| %>
+    <br><%= link_to "#{app.name}'s Application", "/admin/applications/#{app.id}" %>
+  <% end %>
+  </p>
 <% end %>
