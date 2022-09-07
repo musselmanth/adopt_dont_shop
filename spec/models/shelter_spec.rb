@@ -13,7 +13,7 @@ RSpec.describe Shelter, type: :model do
   end
 
   before(:each) do
-    @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
+    @shelter_1 = Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
     @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
 
@@ -56,7 +56,13 @@ RSpec.describe Shelter, type: :model do
 
     describe '#city(id)' do
       it 'returns city of given record' do
-        expect(Shelter.city(@shelter_1.id)).to eq('Aurora, CO')
+        expect(@shelter_1.find_city).to eq('Aurora, CO')
+      end
+    end
+
+    describe '#pending_app_shelters' do
+      it 'returns list of shelters with pending applications' do
+        expect(Shelter.pending_apps_shelters).to eq([@shelter_1, @shelter_3])
       end
     end
   end
@@ -90,6 +96,13 @@ RSpec.describe Shelter, type: :model do
       it 'returns a list of pets that have a pending application' do
         expect(@shelter_1.action_needed_pets).to eq([@pet_1, @pet_2])
         expect(@shelter_3.action_needed_pets).to eq([@pet_3])
+      end
+    end
+
+    describe '.has_pending_apps' do
+      it 'returns true if shelter has pending apps' do
+        expect(@shelter_1.has_pending_apps).to eq true
+        expect(@shelter_2.has_pending_apps).to eq false
       end
     end
   end
