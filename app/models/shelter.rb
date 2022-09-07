@@ -20,8 +20,9 @@ class Shelter < ApplicationRecord
     find_by_sql("SELECT * FROM shelters ORDER BY name DESC")
   end
 
-  def find_city
-    Shelter.find_by_sql("SELECT city FROM shelters WHERE id = #{self.id}").first.city
+  def find_address
+    shelter = Shelter.find_by_sql("SELECT * FROM shelters WHERE id = #{self.id}").first
+    "#{shelter.street_address}, #{shelter.city} #{shelter.state}, #{shelter.zip_code}"
   end
 
   def self.pending_apps_shelters
