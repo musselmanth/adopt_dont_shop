@@ -10,7 +10,7 @@ RSpec.describe 'Show Shelter Admin Page' do
     @shelter1 = Shelter.create!(foster_program: "true", name:"Furry Friends", city: "Denver", rank:"3")
     @cookie = @shelter1.pets.create!(adoptable: "true", name: "cookie", breed:"chihuahua", age:"5")
     @spot = @shelter1.pets.create!(adoptable: "true", name: "spot", breed:"dalmation", age:"2")
-    @dash = @shelter1.pets.create!(adoptable: "false", name: "dash", breed:"golden retriever", age:"13")
+    @dash = @shelter1.pets.create!(adoptable: "true", name: "dash", breed:"golden retriever", age:"13")
 
     @john_doe_app = Application.create!(name: 'John Doe', street_address: '656 Main St.', city: 'Birmingham', state: 'AL', zip_code: 85267, description: "I've been a dog trainer for 40 years and I spend most of my days at home.", status: 'Pending')
     @jane_johnson_app = Application.create!(name: 'Jane Johnson', street_address: '2548 Bungalow Ave', city: 'Spokane', state: 'WA', zip_code: 27338, description: 'I like cats. Give me some.', status: 'Pending')
@@ -53,5 +53,31 @@ RSpec.describe 'Show Shelter Admin Page' do
     expect(page).to have_content("Action Required")
     expect(page).to have_content(@shelter1.name)
     expect(page).to have_content(@shelter1.city)
+  end
+
+  it 'lists the pending applications for each pet under the application required with a link to the admin applicaiton show page' do
+    visit("/admin/shelters/#{@shelter1.id}")
+
+    save_and_open_page
+
+    within("p#pet-#{@cookie.id}") do
+      expect(page).to have_link("John Doe's Application")
+      expect(page).to have_link("Roberta Benson's Application")
+
+      click_link("John Doe's Application")
+
+      expect(current_path).to eq("/admin/applications/#{@john_doe_app.id}")
+    end
+
+    visit("/admin/shelters/#{@shelter1.id}")
+
+    within("p#pet-#{@dash.id}") do
+      expect(page).to have_link("Jane Johnson's Application")
+      expect(page).to have_link("Roberta Benson's Application")
+
+      click_link("Roberta Benson's Application")
+
+      expect(current_path).to eq("/admin/applications/#{@roberta_benson_app.id}")
+    end
   end
 end
