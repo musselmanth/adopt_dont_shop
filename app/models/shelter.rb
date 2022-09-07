@@ -20,8 +20,16 @@ class Shelter < ApplicationRecord
     find_by_sql("SELECT * FROM shelters ORDER BY name DESC")
   end
 
-  def self.city(id)
-    find_by_sql("SELECT city from shelters where id = #{id}").first.city
+  def find_city
+    Shelter.find_by_sql("SELECT city FROM shelters WHERE id = #{self.id}").first.city
+  end
+
+  def self.pending_apps_shelters
+    Shelter.all.find_all {|shelter| shelter.has_pending_apps}
+  end
+
+  def has_pending_apps
+    self.pets.any? {|pet| !pet.pending_apps.empty?}
   end
 
   def pet_count
