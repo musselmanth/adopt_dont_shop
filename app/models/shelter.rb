@@ -26,7 +26,7 @@ class Shelter < ApplicationRecord
   end
 
   def self.pending_apps_shelters
-    Shelter.all.find_all {|shelter| shelter.has_pending_apps}
+    Shelter.all.order(:name).find_all {|shelter| shelter.has_pending_apps}
   end
 
   def has_pending_apps
