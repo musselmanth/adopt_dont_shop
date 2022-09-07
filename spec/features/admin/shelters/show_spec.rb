@@ -78,4 +78,13 @@ RSpec.describe 'Show Shelter Admin Page' do
       expect(current_path).to eq("/admin/applications/#{@roberta_benson_app.id}")
     end
   end
+
+  it 'lists the shelter stats' do
+    visit("/admin/shelters/#{@shelter1.id}")
+
+    expect(page).to have_content("Statistics")
+    expect(page).to have_content("Count of Adoptable Pets: #{@shelter1.adoptable_pets_count}")
+    expect(page).to have_content("Count of Adopted Pets: #{@shelter1.adopted_pets_count}")
+    expect(page).to have_content("Average Pet Age: #{@shelter1.average_pet_age}")
+  end
 end

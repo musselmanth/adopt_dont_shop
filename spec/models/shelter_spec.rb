@@ -137,7 +137,5 @@ RSpec.describe Shelter, type: :model do
         expect(@shelter_3.average_pet_age).to eq(8.00)
       end
     end
-
-    
   end
 end
