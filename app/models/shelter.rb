@@ -51,4 +51,16 @@ class Shelter < ApplicationRecord
   def action_needed_pets
     pets.find_all{ |pet| !pet.pending_apps.empty? }
   end
+
+  def adoptable_pets_count
+    adoptable_pets.count
+  end
+
+  def adopted_pets_count
+    pets.count{ |pet| pet.adopted? }
+  end
+
+  def average_pet_age
+    pets.average(:age).round(2)
+  end
 end
