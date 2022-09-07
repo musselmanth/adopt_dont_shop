@@ -10,7 +10,7 @@ class Application < ApplicationRecord
               presence: true
 
     def app_pets_and_pets
-      application_pets.select('application_pets.*, pets.name').joins(:pet)
+      application_pets.select('application_pets.*, pets.name, pets.adoptable').joins(:pet)
     end
 
     def update_status
@@ -19,6 +19,7 @@ class Application < ApplicationRecord
           update(status: 'Rejected')
         else
           update(status: 'Approved')
+          pets.each{ |pet| pet.update(adoptable: false) }
         end
       end
     end

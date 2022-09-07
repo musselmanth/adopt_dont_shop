@@ -176,5 +176,19 @@ RSpec.describe 'Admin Applications Show Page', type: :feature do
     end
   end
 
+  describe 'application approval makes pet not adoptable' do
+    it 'changes adoptable to false once an application has been approved' do
+      visit("/admin/applications/#{@john_doe_app.id}")
+      within("div#cookie") do
+        click_button("Approve")
+      end
+      within("div#spot") do
+        click_button("Approve")
+      end
+      expect(@cookie.reload.adoptable).to be false
+      expect(@spot.reload.adoptable).to be false
+    end
+  end
+
 
 end
