@@ -37,4 +37,11 @@ RSpec.describe 'Admin Shelters Index Page', type: :feature do
     visit("/admin/shelters")
     expect(page).to have_content("Shelters with Pending Applications:\nAurora shelter\nFancy pets of Colorado")
   end
+
+  it 'links to every shelter show page' do
+    visit("/admin/shelters")
+    click_on @shelter_1.name, match: :first
+
+    expect(current_path).to eq("/admin/shelters/#{@shelter_1.id}")
+  end
 end
