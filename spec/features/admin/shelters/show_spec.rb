@@ -58,8 +58,6 @@ RSpec.describe 'Show Shelter Admin Page' do
   it 'lists the pending applications for each pet under the application required with a link to the admin applicaiton show page' do
     visit("/admin/shelters/#{@shelter1.id}")
 
-    save_and_open_page
-
     within("p#pet-#{@cookie.id}") do
       expect(page).to have_link("John Doe's Application")
       expect(page).to have_link("Roberta Benson's Application")
