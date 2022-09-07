@@ -55,14 +55,14 @@ RSpec.describe Pet, type: :model do
       end
     end
 
-    describe '.any_approved_applications?' do
+    describe '.adopted?' do
       it 'can tell whether any applications have been approved on a particular pet' do
-        expect(@pet_1.any_approved_applications?).to be false
-        expect(@pet_2.any_approved_applications?).to be false
+        expect(@pet_1.adopted?).to be false
+        expect(@pet_2.adopted?).to be false
         @jane_johnson_app.application_pets.each{ |app_pet| app_pet.update(status: "approved") }
         @jane_johnson_app.update_status
-        expect(@pet_2.any_approved_applications?).to be true
-        expect(@pet_1.any_approved_applications?).to be true
+        expect(@pet_2.adopted?).to be true
+        expect(@pet_1.adopted?).to be true
       end
     end
   end

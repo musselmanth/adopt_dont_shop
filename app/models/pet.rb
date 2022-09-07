@@ -17,7 +17,7 @@ class Pet < ApplicationRecord
     applications.where(status: 'Pending')
   end
 
-  def any_approved_applications?
+  def adopted?
     # application_pets.any?{ |app_pet| app_pet.status == "approved" }
     app_pet_and_app_status.any?{ |app_pet| app_pet.status = "approved" && app_pet.app_status == "Approved"}
   end
