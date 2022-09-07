@@ -4,7 +4,7 @@
   <p id="pet-<%= pet.id %>">
   <strong><%= link_to pet.name, "/pets/#{pet.id}" %></strong><br>
   Pending Applications:
-  <% pet.applications.each do |app| %>
+  <% pet.pending_apps.each do |app| %>
     <br><%= link_to "#{app.name}'s Application", "/admin/applications/#{app.id}" %>
   <% end %>
   </p>
